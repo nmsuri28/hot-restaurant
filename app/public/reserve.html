@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Reservations Page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="text-center"><span class="glyphicon glyphicon-fire"></span>Hot Restaurant</h1>
+            <hr>
+            <h2 class="text-center">We only have 5 tables! Book your seat before they all are gone!</h2>
+            <br>
+            <div class="text-center">
+                    <a href="/tables"><button type="button" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-list-alt"></span>View Tables</button></a>
+                    <a href="/reserve"><button type="button" class="btn btn-lg btn-danger"><span class="glyphicon glyphicon-list-alt"></span>Make Reservation</button></a>
+            </div>
+            </div>
+    </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Table Reservation</h4>
+                        </div>
+                        <div class="panel-body">
+
+                            <form role="form">
+                                <div class="form-group">
+                                    <label for="">Name</label>
+                                    <input type="text" class="form-control" id="reserve_name">
+                                </div>
+
+                                <div class="form-group">
+                                        <label for="">Phone Number</label>
+                                        <input type="text" class="form-control" id="reserve_phone">
+                                </div>
+
+                                <div class="form-group">
+                                        <label for="">Email</label>
+                                        <input type="text" class="form-control" id="reserve_email">
+                                </div>
+
+                                <div class="form-group">
+                                        <label for="">Unique ID</label>
+                                        <input type="text" class="form-control" id="reserve_uniqueID">
+                                </div>
+
+                                <button id="submit" type="submit" class="btn btn-primary submit">Submit</button>
+                            </form>
+
+        </div>
+        </div>
+        </div>
+        
+        <footer class="footer">
+                <div class="container">
+                    <p>Control Panel</p>
+                    <p><a href="#" id="clear">Clear Table</a> |<a href="/api/tables">API Table Link</a> | <a href="/api/waitinglist">API Wait List</a></p>
+                </div>
+            </footer>
+    </div>
+    <script type="text/javascript">
+
+    $("#submit").on("click", function(){
+        var newReservation ={
+        customerName:$('#reserve_name').val().trim(),
+        customerNumber:$('#reserve_phone').val().trim(),
+        customerEmail:$('#reserve_email').val().trim(),
+        customerID:$('#reserve_uniqueID').val().trim(),
+    };
+
+    console.log(newReservation);
+
+    var currentURL = window.location.origin;
+
+    $.post(currentURL + "/api/tables", newReservation, function(data){
+        if (data == true){
+            alert("Yay! You are offically booked!");
+        }
+        if (data == false){
+            alert("Sorry you are on the wait list.");
+        }
+
+        $('#reserve_name').val("");
+        $('#reserve_phone').val("");
+        $('#reserve_email').val("");
+        $('#reserve_uniqueID').val("");
+    });
+
+    return false;
+
+    });
+
+    </script>
+</body>
+</html>
